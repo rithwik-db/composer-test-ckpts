@@ -6,9 +6,8 @@ from mcli.sdk import RunConfig, create_run, wait_for_run_status
 # if not autoresume else 'my-cool-autoresume'
 gpu_num = 8  # 1
 cluster = 'r1z1'
-images = ['mosaicml/pytorch:2.5.1_cu124-python3.11-ubuntu22.04']
-composer_versions = ['v0.28.0']
-
+images = ['mosaicml/pytorch:2.7.0_cu128-python3.12-ubuntu22.04']
+composer_versions = ['v0.31.0']
 
 manual_test_integration = {
     'integration_type': 'git_repo',

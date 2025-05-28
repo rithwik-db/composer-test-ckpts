@@ -7,11 +7,12 @@ from torch.utils.data import DataLoader
 from composer.utils import dist
 import sys
 import composer
+import os
 from torchmetrics import Metric, MetricCollection
 from torchmetrics.classification import MulticlassAccuracy, MulticlassAveragePrecision, MulticlassROC
 
-s3_bucket = 'mosaicml-internal-checkpoints-test'
 if __name__ == "__main__":
+    os.environ["DATABRICKS_ENABLE_EXPERIMENTAL_FILES_API_CLIENT"] = "true"
 
     (
         fsdp_state_dict_type,  # ['full', 'local', 'sharded', 'no_fsdp']
@@ -46,7 +47,7 @@ if __name__ == "__main__":
         optimizers=optim,
         train_dataloader=dataloader,
         parallelism_config={'fsdp': fsdp_config},
-        save_folder=f's3://{s3_bucket}/read_only/backwards_compatibility/{composer.__version__}/{folder_name}',
+        save_folder=f'dbfs:/Volumes/main/regression_testing/composer_artifacts/{composer.__version__}/{folder_name}',
         max_duration='2ba',
         save_interval='2ba',
         save_filename='ba{batch}_rank{rank}.pt',
