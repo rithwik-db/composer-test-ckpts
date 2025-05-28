@@ -47,7 +47,7 @@ if __name__ == "__main__":
         optimizers=optim,
         train_dataloader=dataloader,
         parallelism_config={'fsdp': fsdp_config},
-        save_folder=f'dbfs:/Volumes/main/regression_testing/composer_artifacts/{composer.__version__}/{folder_name}',
+        save_folder=f'dbfs:/Volumes/main/regression_testing/composer_artifacts/backwards_compatibility/{composer.__version__}/{folder_name}',
         max_duration='2ba',
         save_interval='2ba',
         save_filename='ba{batch}_rank{rank}.pt',

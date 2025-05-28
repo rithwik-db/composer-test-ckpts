@@ -11,7 +11,7 @@ composer_versions = ['v0.31.0']
 
 manual_test_integration = {
     'integration_type': 'git_repo',
-    'git_repo': 'snarayan21/composer-test-ckpts',
+    'git_repo': 'rithwik-db/composer-test-ckpts',
     'git_branch': 'main',
     'path': '/tmp/composer-test-ckpts'
 }
