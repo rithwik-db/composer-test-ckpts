@@ -7,7 +7,7 @@ from mcli.sdk import RunConfig, create_run, wait_for_run_status
 gpu_num = 8  # 1
 cluster = 'r1z1'
 images = ['mosaicml/pytorch:2.7.0_cu128-python3.12-ubuntu22.04']
-composer_versions = ['v0.31.0']
+composer_versions = ['v0.32.0']
 
 manual_test_integration = {
     'integration_type': 'git_repo',

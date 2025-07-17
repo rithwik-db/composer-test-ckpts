@@ -7,8 +7,9 @@ import tempfile
 from pathlib import Path
 
 import torch
+from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 from composer.core import Callback, State
-from composer.core.state import fsdp_state_dict_type_context, fsdp_get_optim_state_dict
+from composer.core.state import fsdp_state_dict_type_context
 from composer.loggers import Logger
 from composer.loggers.remote_uploader_downloader import RemoteUploaderDownloader
 from composer.utils import (dist, format_name_with_dist_and_time, parse_uri,
@@ -134,11 +135,12 @@ class MonolithicCheckpointSaver(Callback):
             # Add in unsharded optimizer state dict.
             if self.keep_optimizers:
                 optimizer = state.optimizers[0]
+                with fsdp_state_dict_type_context(module=state.model, state_dict_ype='full'):
+                    optim_state_dict = FSDP.optim_state_dict(state.model. optimizer)
+
                 state_dict['state']['optimizers'] = {
-                    type(optimizer).__qualname__: fsdp_get_optim_state_dict(
-                                                                    state.model,
-                                                                    optimizer, 
-                                                                    state_dict_type='full')}
+                    type(optimizer).__qualname__: optim_state_dict
+                }
             if dist.get_global_rank() == 0:
                 torch.save(state_dict, save_path)
             if self.upload_to_object_store and self.remote_ud is not None and dist.get_global_rank(
